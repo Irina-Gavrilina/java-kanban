@@ -1,4 +1,5 @@
-import task.*;
+import model.*;
+import service.TaskManager;
 
 public class Main {
 
