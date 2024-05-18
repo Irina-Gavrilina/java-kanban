@@ -4,15 +4,22 @@ import java.util.Objects;
 
 public class Task {
 
-    protected String title;
-    protected String description;
-    protected int id;
-    protected TaskStatus status;
+    private String title;
+    private String description;
+    private int id;
+    private TaskStatus status;
 
     public Task(String title, String description) {
         this.title = title;
         this.description = description;
         this.status = TaskStatus.NEW;
+    }
+
+    public Task(Task task) {
+        this.title = task.title;
+        this.description = task.description;
+        this.id = task.id;
+        this.status = task.status;
     }
 
     public String getTitle() {
@@ -62,7 +69,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "task.Task{" +
+        return "model.Task{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +

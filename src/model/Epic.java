@@ -28,12 +28,12 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "task.Epic{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
+        return "model.Epic{" +
+                "title='" + getTitle() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", id=" + getId() +
                 ", subtaskId=" + subtaskId +
-                ", status=" + status +
+                ", status=" + getTaskStatus() +
                 '}';
     }
 }

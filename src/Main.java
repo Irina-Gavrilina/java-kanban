@@ -1,11 +1,15 @@
+import manager.InMemoryHistoryManager;
+import manager.InMemoryTaskManager;
+import manager.Managers;
+import manager.TaskManager;
 import model.*;
-import service.TaskManager;
 
 public class Main {
 
     public static void main(String[] args) {
         System.out.println("Поехали!");
-        TaskManager taskManager = new TaskManager();
+
+        TaskManager taskManager = Managers.getDefault();
 
         Task task1 = new Task("Таск 1", "Описание таск 1");
         taskManager.createTask(task1);
@@ -74,5 +78,7 @@ public class Main {
         System.out.println("Эпик:");
         System.out.println(taskManager.getAllEpics());
         System.out.println();
+        System.out.println("Вывод истории:");
+        System.out.println(taskManager.getHistory());
     }
 }
