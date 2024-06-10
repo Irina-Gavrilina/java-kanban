@@ -9,22 +9,22 @@ public class Main {
 
         TaskManager taskManager = Managers.getDefault();
 
-        Task task1 = new Task("Таск 1", "Описание таск 1");
+        Task task1 = new Task("Task1", "Description");
         taskManager.createTask(task1);
-        Task task2 = new Task("Таск 2", "Описание таск 2");
+        Task task2 = new Task("Task2", "Description");
         taskManager.createTask(task2);
 
-        Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
+        Epic epic1 = new Epic("Epic1", "Description");
         taskManager.createEpic(epic1);
 
-        Subtask subtask1 = new Subtask("Субтаск 1", "Описание субтаск 1", epic1.getId());
+        Subtask subtask1 = new Subtask("Subtask1", "Description", epic1.getId());
         taskManager.createSubtask(subtask1);
-        Subtask subtask2 = new Subtask("Субтаск 2", "Описание субтаск 2", epic1.getId());
+        Subtask subtask2 = new Subtask("Subtask2", "Description", epic1.getId());
         taskManager.createSubtask(subtask2);
-        Subtask subtask3 = new Subtask("Субтаск 3", "Описание субтаск 3", epic1.getId());
+        Subtask subtask3 = new Subtask("Subtask3", "Description", epic1.getId());
         taskManager.createSubtask(subtask3);
 
-        Epic epic2 = new Epic("Эпик 2", "Описание эпика 2");
+        Epic epic2 = new Epic("Epic2", "Description");
         taskManager.createEpic(epic2);
 
         System.out.println(taskManager.getHistory());
