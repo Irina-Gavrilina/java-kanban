@@ -3,7 +3,6 @@ package manager;
 import model.Epic;
 import model.Subtask;
 import model.Task;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -91,5 +90,21 @@ class InMemoryTaskManagerTest {
         Task secondTask = taskManager.getTaskById(firstTaskId);
         assertEquals(firstTask.getTitle(), secondTask.getTitle());
         assertEquals(firstTask.getDescription(), secondTask.getDescription());
+    }
+
+    @Test
+    void shouldNotContainRemovedSubtasksIdsInEpic() {
+        Epic epic = new Epic("epic", "description");
+        taskManager.createEpic(epic);
+        Subtask subtask1 = new Subtask("subtask1", "description1", epic.getId());
+        taskManager.createSubtask(subtask1);
+        Subtask subtask2 = new Subtask("subtask2", "description2", epic.getId());
+        taskManager.createSubtask(subtask2);
+        List<Integer> subtaskIds = epic.getSubtaskId();
+        assertEquals(subtaskIds.size(), 2);
+        taskManager.removeSubtaskById(subtask1.getId());
+        subtaskIds = epic.getSubtaskId();
+        assertEquals(subtaskIds.size(), 1);
+        assertEquals(subtaskIds.getFirst(), subtask2.getId());
     }
 }
