@@ -157,7 +157,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 fileWriter.write(String.format("\n%s", toString(subtask)));
             }
         } catch (IOException e) {
-            throw new ManagerSaveException("Не удалось сохранить данные " + "\n", e.getCause());
+            throw new ManagerSaveException(String.format("%s\n", "Не удалось сохранить данные"), e.getCause());
         }
     }
 
@@ -176,7 +176,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                         subtask.getTaskStatus(), subtask.getDescription(), subtask.getEpicId());
             }
         }
-        throw new IllegalStateException("Введено неверное значение: " + taskType);
+        throw new IllegalStateException(String.format("%s %s", "Введено неверное значение:", taskType));
     }
 
     private static Task fromString(String value) {
@@ -208,7 +208,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 subtask.setTaskStatus(status);
                 return subtask;
             }
-            default -> throw new IllegalStateException("Введено неверное значение: " + taskType);
+            default -> throw new IllegalStateException(String.format("%s %s", "Введено неверное значение:", taskType));
         }
     }
 
@@ -224,14 +224,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     public static FileBackedTaskManager loadFromFile(File file) {
 
         try {
-            String[] strings = Files.readString(file.toPath()).split("\n");
+            String[] fileLines = Files.readString(file.toPath()).split("\n");
             FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
 
-            for (String string : strings) {
-                if (string.equals(title) || string.isBlank()) {
+            for (String line : fileLines) {
+                if (line.equals(title) || line.isBlank()) {
                     continue;
                 }
-                Task currentTask = fromString(string);
+                Task currentTask = fromString(line);
                 TaskType taskType = getTaskType(currentTask);
 
                 switch (taskType) {
@@ -241,12 +241,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
                     case SUBTASK -> fileBackedTaskManager.createSubtask((Subtask) currentTask);
 
-                    default -> throw new IllegalStateException("Введено неверное значение: " + taskType);
+                    default -> throw new IllegalStateException(String.format("%s %s", "Введено неверное значение:", taskType));
                 }
             }
             return fileBackedTaskManager;
         } catch (IOException e) {
-            throw new ManagerSaveException("Не удалось восcтановить данные " + "\n", e.getCause());
+            throw new ManagerSaveException(String.format("%s\n", "Не удалось восcтановить данные"), e.getCause());
         }
     }
 }
