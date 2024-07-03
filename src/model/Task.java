@@ -70,9 +70,9 @@ public class Task {
     @Override
     public String toString() {
         return "model.Task{" +
-                "title='" + title + '\'' +
+                "id='" + id + '\'' +
+                ", title=" + title +
                 ", description='" + description + '\'' +
-                ", id=" + id +
                 ", status=" + status +
                 '}';
     }
