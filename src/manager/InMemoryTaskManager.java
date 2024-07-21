@@ -113,7 +113,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             throw new NoEpicException(String.format("%s %d %s", "К сожалению, Epic с таким", subtask.getEpicId(), "не существует"));
         }
-        if (isTimeConflict (subtask)) {
+        if (isTimeConflict(subtask)) {
             throw new TimeConflictException("На это время уже запланирована другая задача");
         }
         subtask.setId(++counterId);
