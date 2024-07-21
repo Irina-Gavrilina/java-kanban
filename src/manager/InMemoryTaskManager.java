@@ -8,6 +8,7 @@ import model.Task;
 import model.TaskStatus;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Epic> epics = new HashMap<>();
     protected final TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
     private final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
 
     // Получение списка всех задач/подзадач/эпиков:
 
@@ -99,7 +101,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Integer createTask(Task task) throws TimeConflictException {
         if (isTimeConflict(task)) {
-            throw new TimeConflictException("На это время уже запланирована другая задача");
+            throw new TimeConflictException(String.format("%s%s%s", "На это время (",
+                    task.getStartTime().format(DATE_TIME_FORMATTER), ") уже запланирована другая задача"));
         }
         task.setId(++counterId);
         tasks.put(task.getId(), task);
@@ -111,10 +114,12 @@ public class InMemoryTaskManager implements TaskManager {
     public Integer createSubtask(Subtask subtask) throws NoEpicException, TimeConflictException {
         Epic epic = epics.get(subtask.getEpicId());
         if (epic == null) {
-            throw new NoEpicException(String.format("%s %d %s", "К сожалению, Epic с таким", subtask.getEpicId(), "не существует"));
+            throw new NoEpicException(String.format("%s%d %s", "К сожалению, Epic с id = ", subtask.getEpicId(),
+                    "не существует"));
         }
         if (isTimeConflict(subtask)) {
-            throw new TimeConflictException("На это время уже запланирована другая задача");
+            throw new TimeConflictException(String.format("%s%s%s", "На это время (",
+                    subtask.getStartTime().format(DATE_TIME_FORMATTER), ") уже запланирована другая задача"));
         }
         subtask.setId(++counterId);
         subtasks.put(subtask.getId(), subtask);

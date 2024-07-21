@@ -13,13 +13,11 @@ import java.nio.file.Files;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.time.format.DateTimeFormatter;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
 
     private final File file;
     private static final String title = "id,type,title,status,description,startTime,duration,epic";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
 
     public FileBackedTaskManager(File file) {
         this.file = file;
