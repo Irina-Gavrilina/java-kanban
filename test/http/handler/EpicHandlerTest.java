@@ -31,8 +31,8 @@ class EpicHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         List<Epic> epicsFromRequest = gson.fromJson(response.body(), new EpicListTypeToken().getType());
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(listOfAllEpics, epicsFromRequest, "Списки эпиков не совпадают");
+        assertEquals(200, response.statusCode());
+        assertEquals(listOfAllEpics, epicsFromRequest);
     }
 
     @Test
@@ -43,8 +43,8 @@ class EpicHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         Epic epicFromRequest = gson.fromJson(response.body(), Epic.class);
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(epic, epicFromRequest, "Эпики не совпадают");
+        assertEquals(200, response.statusCode());
+        assertEquals(epic, epicFromRequest);
     }
 
     @Test
@@ -55,11 +55,11 @@ class EpicHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(epicJson))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(201, response.statusCode(), "Коды ответа не совпадают");
+        assertEquals(201, response.statusCode());
         List<Epic> epicsFromManager = manager.getAllEpics();
-        assertNotNull(epicsFromManager, "Эпики не возвращаются");
-        assertEquals(1, epicsFromManager.size(), "Некорректное количество эпиков");
-        assertEquals("epic", epicsFromManager.getFirst().getTitle(), "Некорректное имя эпика");
+        assertNotNull(epicsFromManager);
+        assertEquals(1, epicsFromManager.size());
+        assertEquals("epic", epicsFromManager.getFirst().getTitle());
     }
 
     @Test
@@ -73,11 +73,11 @@ class EpicHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(epicJson))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(201, response.statusCode(), "Коды ответа не совпадают");
-        assertNotEquals("epic1", epic.getTitle(), "Некорректное имя эпика");
-        assertNotEquals("description1", epic.getDescription(), "Некорректное описание эпика");
-        assertEquals(epic.getTitle(), "epic2", "Некорректное имя эпика");
-        assertEquals(epic.getDescription(), "description2", "Некорректное описание эпика");
+        assertEquals(201, response.statusCode());
+        assertNotEquals("epic1", epic.getTitle());
+        assertNotEquals("description1", epic.getDescription());
+        assertEquals(epic.getTitle(), "epic2");
+        assertEquals(epic.getDescription(), "description2");
     }
 
     @Test
@@ -97,8 +97,8 @@ class EpicHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         List<Subtask> subtasksFromRequest = gson.fromJson(response.body(), new SubtaskListTypeToken().getType());
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(listOfAllSubtasks, subtasksFromRequest, "Списки подзадач не совпадают");
+        assertEquals(200, response.statusCode());
+        assertEquals(listOfAllSubtasks, subtasksFromRequest);
     }
 
     @Test
@@ -109,8 +109,8 @@ class EpicHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).DELETE().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         List<Epic> listOfAllEpics = manager.getAllEpics();
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(listOfAllEpics.size(), 0, "Эпик не удален");
+        assertEquals(200, response.statusCode());
+        assertEquals(listOfAllEpics.size(), 0);
     }
 
     @Test
@@ -118,7 +118,7 @@ class EpicHandlerTest extends HttpTaskServerTest {
         URI url = URI.create("http://localhost:8080/epics/1");
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(404, response.statusCode(), "Коды ответа не совпадают");
+        assertEquals(404, response.statusCode());
     }
 
     static class EpicListTypeToken extends TypeToken<List<Epic>> {

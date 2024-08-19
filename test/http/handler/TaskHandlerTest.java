@@ -32,8 +32,8 @@ class TaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         List<Task> tasksFromRequest = gson.fromJson(response.body(), new TaskListTypeToken().getType());
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(listOfAllTasks, tasksFromRequest, "Списки задач не совпадают");
+        assertEquals(200, response.statusCode());
+        assertEquals(listOfAllTasks, tasksFromRequest);
     }
 
     @Test
@@ -45,8 +45,8 @@ class TaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         Task taskFromRequest = gson.fromJson(response.body(), Task.class);
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(task, taskFromRequest, "Задачи не совпадают");
+        assertEquals(200, response.statusCode());
+        assertEquals(task, taskFromRequest);
     }
 
     @Test
@@ -57,11 +57,11 @@ class TaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(201, response.statusCode(), "Коды ответа не совпадают");
+        assertEquals(201, response.statusCode());
         List<Task> tasksFromManager = manager.getAllTasks();
-        assertNotNull(tasksFromManager, "Задачи не возвращаются");
-        assertEquals(1, tasksFromManager.size(), "Некорректное количество задач");
-        assertEquals("task", tasksFromManager.getFirst().getTitle(), "Некорректное имя задачи");
+        assertNotNull(tasksFromManager);
+        assertEquals(1, tasksFromManager.size());
+        assertEquals("task", tasksFromManager.getFirst().getTitle());
     }
 
     @Test
@@ -77,11 +77,11 @@ class TaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(201, response.statusCode(), "Коды ответа не совпадают");
-        assertNotEquals("task1", task.getTitle(), "Некорректное имя задачи");
-        assertNotEquals("description1", task.getDescription(), "Некорректное описание задачи");
-        assertEquals(task.getTitle(), "task2", "Некорректное имя задачи");
-        assertEquals(task.getDescription(), "description2", "Некорректное описание задачи");
+        assertEquals(201, response.statusCode());
+        assertNotEquals("task1", task.getTitle());
+        assertNotEquals("description1", task.getDescription());
+        assertEquals(task.getTitle(), "task2");
+        assertEquals(task.getDescription(), "description2");
     }
 
     @Test
@@ -93,8 +93,8 @@ class TaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).DELETE().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         List<Task> listOfAllTasks = manager.getAllTasks();
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(listOfAllTasks.size(), 0, "Задача не удалена");
+        assertEquals(200, response.statusCode());
+        assertEquals(listOfAllTasks.size(), 0);
     }
 
     @Test
@@ -108,7 +108,7 @@ class TaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(406, response.statusCode(), "Коды ответа не совпадают");
+        assertEquals(406, response.statusCode());
     }
 
     @Test
@@ -116,7 +116,7 @@ class TaskHandlerTest extends HttpTaskServerTest {
         URI url = URI.create("http://localhost:8080/tasks/1");
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(404, response.statusCode(), "Коды ответа не совпадают");
+        assertEquals(404, response.statusCode());
     }
 
     static class TaskListTypeToken extends TypeToken<List<Task>> {

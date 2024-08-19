@@ -37,8 +37,8 @@ class SubtaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         List<Subtask> subtasksFromRequest = gson.fromJson(response.body(), new SubtaskListTypeToken().getType());
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(listOfAllSubtasks, subtasksFromRequest, "Списки подзадач не совпадают");
+        assertEquals(200, response.statusCode());
+        assertEquals(listOfAllSubtasks, subtasksFromRequest);
     }
 
     @Test
@@ -53,8 +53,8 @@ class SubtaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         Subtask subtaskFromRequest = gson.fromJson(response.body(), Subtask.class);
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(subtask, subtaskFromRequest, "Подзадачи не совпадают");
+        assertEquals(200, response.statusCode());
+        assertEquals(subtask, subtaskFromRequest);
     }
 
     @Test
@@ -69,11 +69,11 @@ class SubtaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(subtaskJson))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(201, response.statusCode(), "Коды ответа не совпадают");
+        assertEquals(201, response.statusCode());
         List<Subtask> subtasksFromManager = manager.getAllSubtasks();
-        assertNotNull(subtasksFromManager, "Подзадачи не возвращаются");
-        assertEquals(1, subtasksFromManager.size(), "Некорректное количество подззадач");
-        assertEquals("subtask", subtasksFromManager.getFirst().getTitle(), "Некорректное имя подзадачи");
+        assertNotNull(subtasksFromManager);
+        assertEquals(1, subtasksFromManager.size());
+        assertEquals("subtask", subtasksFromManager.getFirst().getTitle());
     }
 
     @Test
@@ -91,11 +91,11 @@ class SubtaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(subtaskJson))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(201, response.statusCode(), "Коды ответа не совпадают");
-        assertNotEquals("subtask1", subtask.getTitle(), "Некорректное имя подзадачи");
-        assertNotEquals("description1", subtask.getDescription(), "Некорректное описание подзадачи");
-        assertEquals(subtask.getTitle(), "subtask2", "Некорректное имя подзадачи");
-        assertEquals(subtask.getDescription(), "description2", "Некорректное описание подзадачи");
+        assertEquals(201, response.statusCode());
+        assertNotEquals("subtask1", subtask.getTitle());
+        assertNotEquals("description1", subtask.getDescription());
+        assertEquals(subtask.getTitle(), "subtask2");
+        assertEquals(subtask.getDescription(), "description2");
     }
 
     @Test
@@ -109,8 +109,8 @@ class SubtaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).DELETE().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         List<Subtask> listOfAllSubtasks = manager.getAllSubtasks();
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertEquals(listOfAllSubtasks.size(), 0, "Подзадача не удалена");
+        assertEquals(200, response.statusCode());
+        assertEquals(listOfAllSubtasks.size(), 0);
     }
 
     @Test
@@ -129,7 +129,7 @@ class SubtaskHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(HttpRequest.BodyPublishers.ofString(subtaskJson))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(406, response.statusCode(), "Коды ответа не совпадают");
+        assertEquals(406, response.statusCode());
     }
 
     @Test
@@ -137,7 +137,7 @@ class SubtaskHandlerTest extends HttpTaskServerTest {
         URI url = URI.create("http://localhost:8080/subtasks/1");
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(404, response.statusCode(), "Коды ответа не совпадают");
+        assertEquals(404, response.statusCode());
     }
 
     static class SubtaskListTypeToken extends TypeToken<List<Subtask>> {

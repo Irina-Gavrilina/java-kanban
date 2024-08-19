@@ -33,9 +33,9 @@ class UserHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         List<Task> tasksFromRequest = gson.fromJson(response.body(), new TaskListTypeToken().getType());
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertNotNull(tasksFromRequest, "Задачи не возвращаются");
-        assertEquals(2, tasksFromRequest.size(), "Некорректное количество задач в истории");
+        assertEquals(200, response.statusCode());
+        assertNotNull(tasksFromRequest);
+        assertEquals(2, tasksFromRequest.size());
     }
 
     @Test
@@ -50,9 +50,9 @@ class UserHandlerTest extends HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         List<Task> tasksFromRequest = gson.fromJson(response.body(), new TaskListTypeToken().getType());
-        assertEquals(200, response.statusCode(), "Коды ответа не совпадают");
-        assertNotNull(tasksFromRequest, "Задачи не возвращаются");
-        assertEquals(2, tasksFromRequest.size(), "Некорректное количество задач в истории");
+        assertEquals(200, response.statusCode());
+        assertNotNull(tasksFromRequest);
+        assertEquals(2, tasksFromRequest.size());
     }
 
     static class TaskListTypeToken extends TypeToken<List<Task>> {
